@@ -4,7 +4,6 @@ const API_URL = 'https://api.thecatapi.com/v1/images/search';
 const IMAGES_PER_PAGE = 12;
 
 // State
-let currentPage = 0;
 let isLoading = false;
 let hasMore = true;
 
@@ -26,36 +25,32 @@ async function fetchCatImages() {
         isLoading = true;
         showLoading();
 
-        const params = new URLSearchParams({
-            limit: IMAGES_PER_PAGE,
-            page: currentPage,
-            order: 'RANDOM'
-        });
+        const url = `${API_URL}?limit=${IMAGES_PER_PAGE}&order=RANDOM`;
 
-        const response = await fetch(`${API_URL}?${params}`, {
+        const response = await fetch(url, {
             headers: {
                 'x-api-key': API_KEY
             }
         });
 
         if (!response.ok) {
-            throw new Error(`API Error: ${response.statusCode}`);
+            throw new Error(`API Error: ${response.status}`);
         }
 
         const cats = await response.json();
         
-        if (cats.length < IMAGES_PER_PAGE) {
-            hasMore = true; // API allows continuous fetching
+        if (!Array.isArray(cats) || cats.length === 0) {
+            hasMore = false;
+            throw new Error('No cats received from API');
         }
 
         return cats;
     } catch (error) {
         console.error('Error fetching cats:', error);
-        showError('Failed to load cats. Please try again.');
-        return [];
-    } finally {
+        showError('Failed to load cats. Please check your connection.');
         isLoading = false;
         hideLoading();
+        return [];
     }
 }
 
@@ -101,7 +96,7 @@ async function loadMoreCats() {
     const cats = await fetchCatImages();
     if (cats.length > 0) {
         displayCats(cats);
-        currentPage++;
+        isLoading = false;
     }
 }
 
