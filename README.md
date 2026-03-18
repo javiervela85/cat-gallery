@@ -1,6 +1,6 @@
-# 🐱 Russian Blue Cats Gallery
+# 🐱 Infinite Scroll Cat Pictures Gallery
 
-A beautiful, responsive web page featuring an endless scroll of stunning Russian Blue cat pictures! Built with vanilla HTML, CSS, and JavaScript using The Cat API.
+A fun, responsive web page featuring an endless scroll of funny cat pictures! Built with vanilla HTML, CSS, and JavaScript using The Cat API.
 
 ## Features
 

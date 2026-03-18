@@ -29,8 +29,7 @@ async function fetchCatImages() {
         const params = new URLSearchParams({
             limit: IMAGES_PER_PAGE,
             page: currentPage,
-            order: 'RANDOM',
-            breed_ids: 'rubi' // Russian Blue cats
+            order: 'RANDOM'
         });
 
         const response = await fetch(`${API_URL}?${params}`, {
